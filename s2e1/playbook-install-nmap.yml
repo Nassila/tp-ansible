@@ -14,6 +14,23 @@
       file:
         path: /tmp/toto
         state: directory
+    - name: Create repo
+      file:
+        path: /tmp/s2e1/
+        state: directory
+    - name: Touch a file
+      copy:
+        dest: /tmp/s2e1/demo
+        content: |
+          demo
+    - name: Create repo
+      file:
+        path: /tmp/s2e2/
+        state: directory
+    - name: Copy file 
+      copy:
+        src: /tmp/s2e1/demo
+        dest: /tmp/s2e2/demo2
 
 - hosts: role_hosting
 
@@ -22,3 +39,4 @@
       apt:
         name: apache2
         state: present
+
