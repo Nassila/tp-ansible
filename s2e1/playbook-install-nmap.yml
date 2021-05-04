@@ -1,42 +1,51 @@
 ---
+#Play
 - hosts: all
 
   tasks:
-    - name: Install nmap
+    - name: "Install nmap"
       apt:
         name: nmap
         state: present
-    - name: Install vim
+
+    - name: "Install vim"
       apt:
         name: vim
         state: present
-    
-    - name: Create repo
-      file:
-        path: /tmp/s2e1/
-        state: directory
-
-    - name: Touch a file
-      copy:
-        dest: /tmp/s2e1/demo
-        content: |
-          demo
-
-    - name: Create repo
-      file:
-        path: /tmp/s2e2/
-        state: directory
-
-    - name: Copy file 
-      copy:
-        src: /tmp/s2e1/demo
-        dest: /tmp/s2e2/demo2
-
+        
+#Play
 - hosts: role_hosting
 
   tasks:
-    - name: Install apache2
+    - name: "Install apache2"
       apt:
         name: apache2
         state: present
 
+    - name: "Create repo"
+      file:
+        path: /tmp/s2e1/
+        state: directory
+
+    - name: "Create a file"
+      copy:
+        dest: /tmp/s2e1/demo
+        content: |
+          "demo"
+
+    - name: "Create repo"
+      file:
+        path: /tmp/s2e2/
+        state: directory
+
+    - name: "Copy file"
+      copy:
+        remote_src: yes
+        src: /tmp/s2e1/demo
+        dest: /tmp/s2e2/demo2
+
+    - name: "lister tous les files et repo dans /tmp"
+      command: find /tmp
+
+    - name: "lister tous les files et repo dans /tmp et rediriger vers /tmp/listing"
+      shell: find /tmp > /tmp/listing
