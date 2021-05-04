@@ -10,6 +10,10 @@
       apt:
         name: vim
         state: present
+    - name: Create repo
+      file:
+        path: /tmp/toto
+        state: directory
 
 - hosts: role_hosting
 
