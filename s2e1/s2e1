@@ -5,8 +5,8 @@
   tasks:
     - name: Install nmap
       apt:
-	name: nmap
-	state: present
+        name: nmap
+        state: present
     - name: Install vim
       apt:
         name: vim
