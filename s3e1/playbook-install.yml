@@ -16,26 +16,26 @@
     - name: "Download dokuwiki"
       get_url:
         url: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
-        dest: /usr/src/dokuwiki2021.zip
+        dest: /usr/src/dokuwiki-2020-07-29.zip
     
     - name: "Create repo dokuwiki in /usr/src"
       file:
-        path: /usr/src/docuwiki
+        path: /usr/src/dokuwiki
         state: directory
 
-    - name: "Extract dokuwiki2021.zip into /usr/src/docuwiki"
+    - name: "Extract dokuwiki2021.zip into /usr/src/dokuwiki"
       unarchive:
         src: /usr/src/dokuwiki-2020-07-29.zip
-        dest: /usr/src/docuwiki
+        dest: /usr/src/dokuwiki
 
 #Paly
 - hosts: role_hosting
 
   tasks:
-    - name: "Create repo dokuwiki-host in /var/www/docuwiki-host"
+    - name: "Create repo dokuwiki-host in /var/www/dokuwiki-host"
       file:
-        path: /var/www/docuwiki-host
+        path: /var/www/dokuwiki-host
         state: directory
  
-    - name: "Copy docuwiki directory contents in"
-      command: cp -r /usr/src/docuwiki/. /var/www/docuwiki-host/
+    - name: "Copy dokuwiki directory contents in"
+      command: cp -r /usr/src/dokuwiki/. /var/www/dokuwiki-host/
