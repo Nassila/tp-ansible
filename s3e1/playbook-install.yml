@@ -28,10 +28,18 @@
         src: /usr/src/dokuwiki-2020-07-29.zip
         dest: /usr/src/dokuwiki
 
-    - name: "Create repo dokuwiki-host in /var/www/dokuwiki-host"
+    - name: "Create repo recettes_wiki in /var/www/recettes_wiki"
       file:
-        path: /var/www/dokuwiki-host
+        path: /var/www/recettes_wiki
         state: directory
  
-    - name: "Copy dokuwiki directory contents in"
-      command: cp -r /usr/src/dokuwiki/. /var/www/dokuwiki-host/
+    - name: "Create repo politique_wiki in /var/www/politique_wiki"
+      file:
+        path: /var/www/politique_wiki
+        state: directory
+
+    - name: "Copy dokuwiki directory contents in recettes_wiki"
+      command: cp -r /usr/src/dokuwiki/. /var/www/recettes_wiki/
+
+    - name: "Copy dokuwiki directory contents in politique_wiki"
+      command: cp -r /usr/src/dokuwiki/. /var/www/politique_wiki/
