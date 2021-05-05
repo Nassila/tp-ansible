@@ -23,7 +23,7 @@
     - name: "Download dokuwiki"
       get_url:
         url: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
-        dest: /usr/src/dokuwiki-2020-07-29.zip
+        dest: /usr/src/dokuwiki-2020-07-29.tgz
 
 # Etape A4 
     
@@ -32,10 +32,16 @@
         path: /usr/src/dokuwiki
         state: directory
 
-    - name: "Extract dokuwiki2021.zip into /usr/src/dokuwiki"
+    - name: "Extract dokuwiki-2020-07-29.tgz into /usr/src/dokuwiki"
       unarchive:
-        src: /usr/src/dokuwiki-2020-07-29.zip
+        remote_src: yes
+        src: /usr/src/dokuwiki-2020-07-29.tgz
         dest: /usr/src/dokuwiki
+
+    - name: "Delete dokuwiki-2020-07-29.tgz archive"
+      file:
+        path: /usr/src/dokuwiki-2020-07-29.tgz
+        state: absent
 
 # Etape B1
 
@@ -57,7 +63,7 @@
       shell: cd /var/www/ && chown -R www-data:www-data "{{ item }}/" && cd
       with_items: "{{ repositories_names }}"
 
-#Etape B4
+# Etape B4
 
     - name: "Create a configuration file"
       file:
@@ -71,3 +77,17 @@
         dest: "/etc/apache2/site-available/{{ item }}"
       with_items: "{{ repositories_names }}"
 
+# Etape B5
+
+    - name: "Enable virtualhost in apach2"
+      commande: a2ensite "{{ item }}"
+      with_items: "{{ repositories_names }}"
+
+    - name: "Reload apache2"
+      commande: systemctl reload apache2
+
+# Etape B6
+ 
+    - name: "Add DNS in /etc/hosts"
+      shell: "127.0.0.1 {{ item }}" >> /etc/hosts
+      with_items: "{{ repositories_names }}"
