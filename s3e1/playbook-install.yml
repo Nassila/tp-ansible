@@ -8,6 +8,9 @@
       - politique_wiki
 
   tasks:
+
+# Etape A2
+
     - name: "Install apache2 and php7"
       apt:
         name: 
@@ -15,10 +18,14 @@
           - php7.3
         state: present
 
+# Etape A3
+
     - name: "Download dokuwiki"
       get_url:
         url: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
         dest: /usr/src/dokuwiki-2020-07-29.zip
+
+# Etape A4 
     
     - name: "Create repo dokuwiki in /usr/src"
       file:
@@ -30,21 +37,37 @@
         src: /usr/src/dokuwiki-2020-07-29.zip
         dest: /usr/src/dokuwiki
 
+# Etape B1
+
     - name: "Create repo recettes_wiki et politique_wiki in /var/www/"
       file:
         path: "/var/www/{{ item }}"
         state: directory
       with_items: "{{ repositories_names }}" 
 
+# Etape B2
+
     - name: "Copy dokuwiki directory contents in recettes_wiki and politique_wiki"
       command: cp -r /usr/src/dokuwiki/.  "/var/www/{{ item }}/"
       with_items: "{{ repositories_names }}"
 
+# Etape B3
+ 
     - name: "Allow apache to write"
       shell: cd /var/www/ && chown -R www-data:www-data "{{ item }}/" && cd
       with_items: "{{ repositories_names }}"
 
+#Etape B4
+
     - name: "Create a configuration file"
-      copy:
-        dest: "/etc/apache2/site-available/{{ item }}.conf"
+      file:
+        path: "/etc/apache2/site-available/{{ item }}.conf"
+        state: touch
       with_items: "{{ repositories_names }}"
+
+    - name: "use 000-default.conf template"
+      template:
+        src: /etc/apache2/site-available/000-default.conf
+        dest: "/etc/apache2/site-available/{{ item }}"
+      with_items: "{{ repositories_names }}"
+
