@@ -2,6 +2,11 @@
 #Play
 - hosts: role_server
 
+  vars:
+    repositories_names:
+      - recettes_wiki
+      - politique_wiki
+
   tasks:
     - name: "Install apache2"
       apt:
@@ -28,18 +33,12 @@
         src: /usr/src/dokuwiki-2020-07-29.zip
         dest: /usr/src/dokuwiki
 
-    - name: "Create repo recettes_wiki in /var/www/recettes_wiki"
+    - name: "Create repo recettes_wiki et politique_wiki in /var/www/"
       file:
-        path: /var/www/recettes_wiki
+        path: "/var/www/{{ item }}"
         state: directory
- 
-    - name: "Create repo politique_wiki in /var/www/politique_wiki"
-      file:
-        path: /var/www/politique_wiki
-        state: directory
+      with_items: "{{ repositories_names }}" 
 
-    - name: "Copy dokuwiki directory contents in recettes_wiki"
-      command: cp -r /usr/src/dokuwiki/. /var/www/recettes_wiki/
-
-    - name: "Copy dokuwiki directory contents in politique_wiki"
-      command: cp -r /usr/src/dokuwiki/. /var/www/politique_wiki/
+    - name: "Copy dokuwiki directory contents in recettes_wiki and politique_wiki"
+      command: cp -r /usr/src/dokuwiki/.  "/var/www/{{ item }}/"
+      with_items: "{{ repositories_names }}"
