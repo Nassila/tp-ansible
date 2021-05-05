@@ -89,5 +89,5 @@
 # Etape B6
  
     - name: "Add DNS in /etc/hosts"
-      shell: "127.0.0.1 {{ item }}" >> /etc/hosts
+      shell: echo "127.0.0.1 {{ item }}" >> /etc/hosts
       with_items: "{{ repositories_names }}"
