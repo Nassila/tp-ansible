@@ -1,6 +1,6 @@
 ---
 #Play
-- hosts: role_control
+- hosts: role_server
 
   tasks:
     - name: "Install apache2"
@@ -28,10 +28,6 @@
         src: /usr/src/dokuwiki-2020-07-29.zip
         dest: /usr/src/dokuwiki
 
-#Paly
-- hosts: role_hosting
-
-  tasks:
     - name: "Create repo dokuwiki-host in /var/www/dokuwiki-host"
       file:
         path: /var/www/dokuwiki-host
