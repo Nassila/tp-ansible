@@ -44,19 +44,27 @@
       file:
         path: "/var/www/{{ item }}"
         state: directory
-      with_items: "{{ repositories_names }}" 
+      with_items: "{{ directories_names }}" 
 
 # Etape B2
 
     - name: "Copy dokuwiki directory contents in recettes_wiki and politique_wiki"
-      command: cp -r /usr/src/dokuwiki/.  "/var/www/{{ item }}/"
-      with_items: "{{ repositories_names }}"
+      copy:
+        src: /usr/src/dokuwiki/.
+        dest: "/var/www/{{item}}"
+        mode: "0755"
+      with_items: "{{ directories_names }}"
 
 # Etape B3
  
     - name: "Allow apache to write"
-      shell: cd /var/www/ && chown -R www-data:www-data "{{ item }}/" && cd
-      with_items: "{{ repositories_names }}"
+      file:
+        path: /var/www/{{ items }}
+        state: directory
+        recurse: yes
+        owner: www-data
+        group: www-data
+      with_items: "{{ directories_names }}"
 
 # Etape B4
 
@@ -64,13 +72,13 @@
       template:
         src: "templates/{{ item }}.conf"
         dest: "/etc/apache2/sites-available/{{ item }}.conf"
-      with_items: "{{ repositories_names }}"
+      with_items: "{{ directories_names }}"
 
 # Etape B5
 
     - name: "Enable virtualhost in apache2"
       command: a2ensite "{{ item }}"
-      with_items: "{{ repositories_names }}"
+      with_items: "{{ directories_names }}"
 
     - name: "Reload apache2"
       command: systemctl reload apache2
@@ -82,5 +90,7 @@
   tasks:
  
     - name: "Add DNS in /etc/hosts"
-      shell: echo "127.0.0.1 {{ item }}" >> /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        line: "127.0.0.1  {{ item }}"
       with_items: "{{ urls_sites }}"
