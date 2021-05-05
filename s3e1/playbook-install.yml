@@ -8,14 +8,11 @@
       - politique_wiki
 
   tasks:
-    - name: "Install apache2"
+    - name: "Install apache2 and php7"
       apt:
-        name: apache2
-        state: present
-
-    - name: "Install php7"
-      apt:
-        name: php7.3
+        name: 
+          - apache2
+          - php7.3
         state: present
 
     - name: "Download dokuwiki"
@@ -41,4 +38,13 @@
 
     - name: "Copy dokuwiki directory contents in recettes_wiki and politique_wiki"
       command: cp -r /usr/src/dokuwiki/.  "/var/www/{{ item }}/"
+      with_items: "{{ repositories_names }}"
+
+    - name: "Allow apache to write"
+      shell: cd /var/www/ && chown -R www-data:www-data "{{ item }}/" && cd
+      with_items: "{{ repositories_names }}"
+
+    - name: "Create a configuration file"
+      copy:
+        dest: "/etc/apache2/site-available/{{ item }}.conf"
       with_items: "{{ repositories_names }}"
