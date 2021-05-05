@@ -69,6 +69,7 @@
       file:
         path: "/etc/apache2/site-available/{{ item }}.conf"
         state: touch
+        mode: u=rw,g=r,o=r
       with_items: "{{ repositories_names }}"
 
     - name: "use 000-default.conf template"
@@ -80,11 +81,11 @@
 # Etape B5
 
     - name: "Enable virtualhost in apach2"
-      commande: a2ensite "{{ item }}"
+      command: a2ensite "{{ item }}"
       with_items: "{{ repositories_names }}"
 
     - name: "Reload apache2"
-      commande: systemctl reload apache2
+      command: systemctl reload apache2
 
 # Etape B6
  
