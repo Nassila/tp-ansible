@@ -1,0 +1,19 @@
+---
+#Play
+- hosts: role_control
+
+  tasks:
+    - name: "Install apache2"
+      apt:
+        name: apache2
+        state: present
+
+    - name: "Install php7"
+      apt:
+        name: php7.4
+        state: present
+
+    - name: "Download dokuwiki"
+      get_url:
+        url: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
+        dest: /usr/src/dokuwiki2021.tgz

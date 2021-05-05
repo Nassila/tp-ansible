@@ -1,0 +1,10 @@
+recettes.wiki ansible_host=192.168.50.10 ansible_user=root
+politique.wiki ansible_host=192.168.50.20 ansible_user=root
+control ansible_host=192.168.50.250 ansible_user=root
+
+[role_control]
+control
+
+[role_hosting]
+recettes.wiki
+politique.wiki
