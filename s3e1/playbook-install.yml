@@ -2,11 +2,6 @@
 #Play
 - hosts: role_server
 
-  vars:
-    repositories_names:
-      - recettes_wiki
-      - politique_wiki
-
   tasks:
 
 # Etape A2
@@ -65,17 +60,10 @@
 
 # Etape B4
 
-    - name: "Create a configuration file"
-      file:
-        path: "/etc/apache2/site-available/{{ item }}.conf"
-        state: touch
-        mode: u=rw,g=r,o=r
-      with_items: "{{ repositories_names }}"
-
-    - name: "use 000-default.conf template"
+    - name: "use 000-default.conf template for recettes_wiki.conf and politique_wiki.conf "
       template:
         src: /etc/apache2/site-available/000-default.conf
-        dest: "/etc/apache2/site-available/{{ item }}"
+        dest: "/etc/apache2/site-available/{{ item }}.conf"
       with_items: "{{ repositories_names }}"
 
 # Etape B5
