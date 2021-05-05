@@ -10,10 +10,32 @@
 
     - name: "Install php7"
       apt:
-        name: php7.4
+        name: php7.3
         state: present
 
     - name: "Download dokuwiki"
       get_url:
         url: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
-        dest: /usr/src/dokuwiki2021.tgz
+        dest: /usr/src/dokuwiki2021.zip
+    
+    - name: "Create repo dokuwiki in /usr/src"
+      file:
+        path: /usr/src/docuwiki
+        state: directory
+
+    - name: "Extract dokuwiki2021.zip into /usr/src/docuwiki"
+      unarchive:
+        src: /usr/src/dokuwiki-2020-07-29.zip
+        dest: /usr/src/docuwiki
+
+#Paly
+- hosts: role_hosting
+
+  tasks:
+    - name: "Create repo dokuwiki-host in /var/www/docuwiki-host"
+      file:
+        path: /var/www/docuwiki-host
+        state: directory
+ 
+    - name: "Copy docuwiki directory contents in"
+      command: cp -r /usr/src/docuwiki/. /var/www/docuwiki-host/
