@@ -62,13 +62,13 @@
 
     - name: "use 000-default.conf template for recettes_wiki.conf and politique_wiki.conf "
       template:
-        src: /etc/apache2/site-available/000-default.conf
-        dest: "/etc/apache2/site-available/{{ item }}.conf"
+        src: template/000-default.conf
+        dest: "/etc/apache2/sites-available/{{ item }}.conf"
       with_items: "{{ repositories_names }}"
 
 # Etape B5
 
-    - name: "Enable virtualhost in apach2"
+    - name: "Enable virtualhost in apache2"
       command: a2ensite "{{ item }}"
       with_items: "{{ repositories_names }}"
 
