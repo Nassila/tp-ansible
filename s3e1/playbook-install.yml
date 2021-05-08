@@ -50,9 +50,8 @@
 
     - name: "Copy dokuwiki directory contents in recettes_wiki and politique_wiki"
       copy:
-        src: /usr/src/dokuwiki/.
-        dest: "/var/www/{{item}}"
-        mode: "0755"
+        src: /usr/src/dokuwiki/
+        dest: "/var/www/{{ item }}"
       with_items: "{{ directories_names }}"
 
 # Etape B3

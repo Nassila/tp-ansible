@@ -1,0 +1,8 @@
+mariadb_databases:
+  - name: maria_db1
+    encoding: utf8
+
+mariadb_users:
+  - name: mariauser1
+    password: mariauser_pwd1
+    priv: '*.*:ALL,GRANT'

@@ -1,0 +1,8 @@
+
+# [DATABASE]
+nextcloud_install_db: true
+nextcloud_db_host: "192.168.50.20"
+nextcloud_db_backend: "mariadb" 
+nextcloud_db_name: "mariauser1"
+nextcloud_db_admin: "maria_db1"
+nextcloud_db_pwd: "mariauser_pwd1"
